@@ -1,0 +1,789 @@
+@@ hello
+console.log("こんにちは");
+console.log(1 + 2);
+console.log("価格は", 100, "円");   // カンマで区切ると、まとめて表示できる
+@@ let_const
+const course = "JavaScript";   // あとで変えない値
+let height = 100;              // あとで変える値
+height = height + 1;           // 100 + 1 を計算して、結果を height に入れ直す
+height += 1;                   // 上と同じ意味の短い書き方（height = height + 1）
+console.log(course, height);
+@@ const_obj
+const order = { amount: 100, list: [1, 2] };
+order.amount = 200;   // 中身の書き換えはできる
+order.list.push(3);
+console.log(order);
+{
+  const fixed = 1;
+  try { fixed = 2; } catch (e) { console.log(String(e)); }   // 入れ直しはエラー
+}
+@@ global_assign
+count = 10;                   // const も let も付けずに代入すると、どこからでも見える変数になる
+count = count + 1;
+function show() {
+  return count;               // 関数の中からも見える
+}
+console.log(count, show());
+@@ scope
+{
+  let blockOnly = "ブロックの中";
+  console.log(blockOnly);
+}
+console.log(typeof blockOnly);   // ブロックの外には存在しない
+@@ types
+console.log(typeof 1500, typeof "abc", typeof true, typeof undefined);
+console.log(typeof { a: 1 }, typeof [1, 2], typeof null, typeof (() => 1));
+console.log(Array.isArray([1, 2]), Array.isArray({ a: 1 }));
+@@ null_undef
+let nothing = undefined;              // 値を入れていない状態を、わざと書く
+const empty = null;                   // 「値がない」と、自分で示した値
+const user = { id: "A001" };
+console.log(nothing, empty, user.id, user.age);   // 無い項目を読むと undefined
+@@ num_ops
+console.log(7 + 3, 7 - 3, 7 * 3, 7 / 2, 7 % 2, 2 ** 10);
+console.log(Math.floor(7 / 2), Math.round(2.5), Math.max(3, 9, 5), Math.min(3, 9, 5));
+console.log((1.23456).toFixed(2), 10 / 3);
+@@ num_conv
+console.log(Number("42") + 1, parseInt("1F", 16), parseInt("12px"));
+console.log(String(255), (255).toString(16), (255).toString(2));
+console.log(typeof String(255), typeof Number("255"));
+@@ str_basic
+const word = "JavaScript";
+console.log(word.length, word[0], word.at(-1));            // at(-1) は最後の1文字
+console.log(word.slice(0, 4), word.slice(4), word.substring(4, 6));
+console.log(word.toUpperCase(), word.toLowerCase());
+console.log(word.indexOf("Script"), word.includes("Java"), word.startsWith("Java"));
+@@ str_more
+console.log("7".padStart(3, "0"), "ab".repeat(3));
+console.log("2025-01-02".replace("-", "/"), "2025-01-02".replaceAll("-", "/"));
+console.log("a,b,c".split(","));
+console.log(["a", "b", "c"].join("-"));
+console.log("JavaScript".substr(4, 3));    // 古い書き方: substr(開始, 長さ)
+@@ template
+const fruit = "りんご";
+const count2 = 3;
+console.log(`${fruit}は ${count2} 個あります`);
+console.log(`1 + 2 = ${1 + 2}`);
+console.log(fruit + "は " + count2 + " 個あります");   // + でつなぐ書き方も同じ結果
+@@ regex
+const hex = "4CB5ABF6";
+console.log(hex.match(/../g));                     // 2文字ずつに区切る
+console.log(/^[0-9]+$/.test("12345"), /^[0-9]+$/.test("12a45"));   // 全部数字か調べる
+@@ type_conv
+console.log("5" + 3, "5" - 3, "5" * "2");     // + だけは、文字列の連結になる
+console.log(String(Number("abc")), Number.isNaN(Number("abc")), Number(""));
+console.log(typeof (5 + "3"), typeof Number("5"));
+@@ date_basic
+const now = Date.now();                       // 1970年1月1日 0:00（UTC）からの経過ミリ秒
+console.log(typeof now, now > 1700000000000);
+const epoch = new Date(0);                    // 経過0ミリ秒 ＝ 基準の日時
+console.log(epoch.toISOString(), epoch.getTime());
+const baseTime = new Date(Date.UTC(2025, 0, 2, 3, 4, 5));   // 月は 0 から始まる（0 = 1月）
+console.log(baseTime.toISOString());
+console.log(new Date(baseTime.getTime() + 2 * 60 * 60 * 1000).toISOString());   // 2時間後
+@@ compare
+console.log(1 === 1, "1" === 1, "1" == 1);
+console.log(3 > 2, 3 >= 3, 3 < 2, 3 !== 4);
+console.log(Boolean(0), Boolean(""), Boolean(null), Boolean(undefined));
+console.log(Boolean("0"), Boolean([]), Boolean({}));
+@@ loose_eq
+const msg = { topic: "block" };
+console.log(msg.uid != undefined);                           // uid が無い → false
+console.log(null == undefined, null === undefined);
+const msg2 = { uid: "ABC" };
+console.log(msg2.uid != undefined);                          // uid がある → true
+@@ logic
+const age = 20, member = false;
+console.log(age >= 18 && member, age >= 18 || member, !member);
+const n0 = 0;
+console.log(n0 || 10, n0 ?? 10, null ?? 10);   // || は「偽」のとき、?? は null / undefined のときだけ右を使う
+@@ if_else
+const score = 72;
+if (score >= 80) {
+  console.log("優");
+} else if (score >= 60) {
+  console.log("良");
+} else {
+  console.log("要努力");
+}
+const label = score >= 60 ? "合格" : "不合格";   // 三項演算子: 条件 ? 真のとき : 偽のとき
+console.log(label);
+if (score > 50) console.log("1行なら { } を省ける");
+@@ for_basic
+for (let i = 0; i < 3; i++) {
+  console.log("i =", i);
+}
+let total = 0;
+for (let i = 1; i <= 5; i++) total += i;   // 1 + 2 + 3 + 4 + 5
+console.log("合計", total);
+@@ for_of
+const names = ["Alice", "Bob", "Carol"];
+for (const who of names) {
+  console.log(who);
+}
+for (const [i, who] of names.entries()) console.log(i, who);   // 番号つきで取り出す
+@@ while_break
+let size = 1;
+while (size < 100) {
+  size *= 2;                     // 100 を超えるまで倍にする
+}
+console.log(size);
+for (let i = 0; i < 10; i++) {
+  if (i === 2) continue;         // 今回だけ飛ばして、次へ
+  if (i === 5) break;            // 繰り返し全体を終える
+  console.log(i);
+}
+@@ array_basic
+const fruits = ["りんご", "みかん", "ぶどう"];
+console.log(fruits[0], fruits[2], fruits.length);   // 番号は 0 から
+fruits.push("もも");                                // 末尾に追加（元の配列が変わる）
+fruits[0] = "青りんご";                             // 番号を指定して書き換え
+console.log(fruits.join(", "));
+console.log(fruits.slice(1, 3), fruits.indexOf("ぶどう"));
+console.log(fruits[10], fruits.at(-1));
+@@ array_spread
+const a1 = [1, 2], b1 = [3, 4];
+const merged = [...a1, ...b1, 5];                 // 展開して、1つの配列にする
+console.log(merged.join(","), a1.concat(b1).join(","));
+const [x1, y1] = [10, 20];                        // 分割代入: 番号の順に取り出す
+const [first, ...rest] = merged;                  // 先頭と、残り全部
+const [w1, w2 = "既定値"] = ["A"];                // 無いときの既定値
+console.log(x1, y1, first, rest.join(","), w1, w2);
+let p = 1, q = 2;
+[p, q] = [q, p];                                  // 入れ替え
+console.log(p, q);
+@@ array_nested
+const table = [["A", 1], ["B", 2]];               // 配列の中の配列
+console.log(table[1][0], table[1][1], table.length);
+const [[k0, v0], [k1, v1]] = table;
+console.log(k0, v0, k1, v1);
+@@ obj_basic
+const order2 = {
+  customer: "山田",
+  "total-price": 350,                // 名前に - などを含むときは、引用符で囲む
+  items: [
+    { id: "A001", price: 100 },
+    { id: "B002", price: 250 },
+  ],
+};
+console.log(order2.customer, order2["customer"], order2["total-price"]);
+console.log(order2.items.length, order2.items[0].id, order2.items[1].price);
+order2.customer = "鈴木";            // 書き換え
+order2.memo = "急ぎ";                // 新しい項目の追加
+console.log(order2.customer, order2.memo, order2.shipping);
+@@ obj_key_var
+const channel = "block";
+const handlers = {};
+handlers[channel] = [];                       // 変数の中身を名前にして、項目を作る
+handlers[channel].push("A");
+handlers["block"].push("B");
+console.log(handlers);
+console.log(handlers.hasOwnProperty("block"), handlers.hasOwnProperty("status"), "block" in handlers);
+@@ obj_iter
+const PERM = { read: 4, write: 2, exec: 1 };
+console.log(Object.keys(PERM).join(","), Object.values(PERM).join(","));
+for (const [pname, bit] of Object.entries(PERM)) console.log(pname, bit);
+const more = { ...PERM, write: 20, remove: 8 };   // 展開して、一部を上書き・追加
+console.log(more);
+const id = "ABC", amount = 5;
+console.log({ id, amount });                      // { id: id, amount: amount } の省略形
+@@ obj_shallow
+const orig = { fee: 100, tags: ["a"] };
+const dup = { ...orig };
+dup.fee = 200;               // コピー側の書き換えは、元に影響しない
+dup.tags.push("b");          // ところが、入れ子の中身は同じものを指している
+console.log(orig.fee, orig.tags.join(","));
+@@ json_basic
+const text = JSON.stringify({ name: "sample", list: [1, 2], ok: true });
+console.log(text, typeof text);
+const back = JSON.parse(text);
+console.log(back.list[1], typeof back);
+console.log(JSON.stringify({ a: 1, b: [2] }, null, 2));   // 見やすく整形
+try { JSON.parse("{ 壊れたJSON"); } catch (e) { console.log(e.name); }
+@@ func_basic
+function add(a, b) {
+  return a + b;
+}
+const mul = function (a, b) { return a * b; };
+const sub = (a, b) => a - b;
+const half = (n) => n / 2;
+const dbl = n => n * 2;                       // 引数が1つなら ( ) を省ける
+const hello = () => console.log("こんにちは");   // 引数がなければ ( ) だけ
+console.log(add(1, 2), mul(3, 4), sub(9, 4), half(5), dbl(8));
+hello();
+@@ func_return
+const check = (n) => {
+  if (n < 0) return "負";         // 条件に当てはまったら、ここで関数を終える
+  if (n === 0) return "ゼロ";
+  return "正";
+};
+console.log(check(-5), check(0), check(7));
+const noReturn = () => { 1 + 1; };
+console.log(noReturn());          // return が無い関数は undefined を返す
+const makeItem = (id) => ({ id, amount: 0 });   // オブジェクトを返すときは ( ) で包む
+console.log(makeItem("ABC"));
+@@ func_scope
+const rate = 0.1;                                    // 関数の外で作った値
+const withTax = (price) => price + price * rate;     // 関数の中から使える
+console.log(withTax(1000));
+let counter = 0;
+const countUp = () => { counter += 1; return counter; };   // 外の変数を書き換えられる
+console.log(countUp(), countUp(), countUp());
+@@ func_value
+const twice = (f, x) => f(f(x));
+const inc = (n) => n + 1;
+console.log(twice(inc, 5));                   // inc という関数そのものを渡している
+console.log(typeof inc, typeof inc(1));       // inc は関数、inc(1) は呼んだ結果（数値）
+const calls = [];
+const logger = (msg) => calls.push(msg);
+["a", "b"].forEach(logger);                    // forEach が、要素ごとに logger を呼ぶ
+console.log(calls.join(","));
+@@ func_recursion
+const fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));    // 自分自身を呼ぶ
+console.log(fact(5));
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));   // 最大公約数（暗号の基礎の章でも使う形）
+console.log(gcd(48, 18));
+@@ arr_methods
+const items = [
+  { id: "A001", amount: 1500000 },
+  { id: "B002", amount: 25 },
+  { id: "C003", amount: 3 },
+];
+items.forEach((m) => console.log(m.id));
+const ids = items.map((m) => m.id);
+const small = items.filter((m) => m.amount < 100);
+const found = items.find((m) => m.id === "B002");
+const sum = items.reduce((s, m) => s + m.amount, 0);
+console.log(ids.join(", "));
+console.log(small.length, found.amount, sum);
+console.log(items.some((m) => m.amount === 3), items.every((m) => m.amount > 10));
+@@ arr_reduce
+const nums = [1, 2, 3];
+const result = nums.reduce((acc, n) => {
+  console.log("acc =", acc, " n =", n);
+  return acc + n;                          // return した値が、次の回の acc になる
+}, 0);
+console.log("結果", result);
+@@ arr_sort
+const nums2 = [10, 9, 100, 1];
+console.log([...nums2].sort().join(", "));                 // 比較関数なし: 文字列として並べる
+console.log([...nums2].sort((a, b) => a - b).join(", "));  // 数値の小さい順
+console.log([...nums2].sort((a, b) => b - a).join(", "));  // 数値の大きい順
+console.log(nums2.join(", "));                             // 元の配列は、そのまま
+@@ arr_from
+console.log(Array.from({ length: 4 }, (_, i) => i * 10).join(","));   // 長さ4の配列を、番号から作る
+console.log(Array.from("abc", (c) => c.toUpperCase()).join(""));      // 1文字ずつ処理する
+@@ cb_timeout
+console.log("1: 開始");
+setTimeout(() => console.log("3: 100ミリ秒後に呼ばれる"), 100);   // 「100ミリ秒後に、この関数を呼んで」
+console.log("2: 待たずに、先へ進む");
+@@ cb_interval
+let tick = 0;
+const timer = setInterval(() => {
+  tick += 1;
+  console.log("tick", tick);
+  if (tick === 3) clearInterval(timer);   // 3回で止める
+}, 100);
+@@ cb_handler
+// 本物の WebSocket の代わりに、「あとで届く」ことだけを真似た部品
+const fakeSocket = {};
+fakeSocket.onmessage = function (e) {          // 受信したときに呼んでほしい関数を、onmessage に入れておく
+  console.log("受信:", e.data);
+};
+setTimeout(() => fakeSocket.onmessage({ data: "block 1" }), 100);   // 届いた、という想定
+setTimeout(() => fakeSocket.onmessage({ data: "block 2" }), 200);
+console.log("登録しただけ。まだ何も届いていない");
+@@ cb_dispatch
+const handlerMap = {};
+const addHandler = (channel, callback) => {
+  if (!handlerMap.hasOwnProperty(channel)) {
+    handlerMap[channel] = [];                       // 初めてのチャンネルなら、空の配列を用意
+  }
+  handlerMap[channel].push(callback);               // 呼んでほしい関数を、しまっておく
+};
+addHandler("block", (d) => console.log("A:", d));
+addHandler("block", (d) => console.log("B:", d));
+handlerMap["block"].forEach((f) => {                // 受信したら、しまった関数を全部呼ぶ
+  f("height 100");
+});
+@@ promise_basic
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));   // ms 後に「成功」する Promise
+const p0 = wait(100);
+console.log(p0 instanceof Promise);               // 値ではなく、Promise が返る
+p0.then(() => console.log("100ミリ秒経ちました"));   // 成功したら、この関数を呼んで
+console.log("先にここが表示される");
+@@ promise_value
+const getNumber = (ok) => new Promise((resolve, reject) => {
+  setTimeout(() => (ok ? resolve(42) : reject(new Error("失敗しました"))), 50);
+});
+getNumber(true).then((v) => console.log("成功:", v));
+getNumber(false).then((v) => console.log("呼ばれない", v)).catch((e) => console.log("失敗:", e.message));
+@@ then_chain
+Promise.resolve(10)
+  .then((v) => {
+    console.log("1つ目:", v);
+    return v * 2;                 // return した値が、次の then に渡る
+  })
+  .then((v) => {
+    console.log("2つ目:", v);
+    return v + 1;
+  })
+  .then((v) => console.log("3つ目:", v));
+@@ then_wait
+const wait2 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const t0 = Date.now();
+wait2(100)
+  .then(() => wait2(100))          // Promise を return すると、それが終わるまで次は待たれる
+  .then(() => console.log("かかった時間:", Math.round((Date.now() - t0) / 100) * 100 + "ms"));
+@@ then_fetch
+const fakeFetch = () => Promise.resolve(new Response(JSON.stringify({ height: "100" }), { status: 200 }));
+fakeFetch()
+  .then((res) => res.json())       // res.json() も Promise を返すので、次の then は中身（JSON）を受け取る
+  .then((json) => {
+    console.log("height =", json.height);
+  });
+@@ then_catch
+Promise.resolve("入力")
+  .then((v) => { throw new Error("途中で失敗: " + v); })
+  .then(() => console.log("飛ばされる"))
+  .catch((e) => console.log("catch:", e.message));    // 途中のどこで失敗しても、ここで受ける
+@@ then_outer
+const wait3 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+resultValue = undefined;
+wait3(100).then(() => { resultValue = 152; });      // 100ミリ秒後に、外の変数へ入れる
+console.log("すぐ読むと:", resultValue);              // まだ届いていない
+await wait3(200);
+console.log("待ったあと:", resultValue);
+@@ then_vs_await
+const wait4 = (ms, v) => new Promise((resolve) => setTimeout(() => resolve(v), ms));
+wait4(50, "A").then((a) => console.log("then で受け取る:", a));
+const b = await wait4(100, "B");                   // await で受け取る
+console.log("await で受け取る:", b);
+@@ async_basic
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+console.log("開始");
+const t1 = Date.now();
+await sleep(1000);
+console.log("1秒後", Math.round((Date.now() - t1) / 1000) + "秒経過");
+@@ async_func
+const getValue = async () => 42;               // async を付けると、return した値が Promise に包まれて返る
+const pv = getValue();
+console.log(pv instanceof Promise);
+console.log(await pv);
+async function loadTwice() {                   // 関数の中で await を使うには、async が必要
+  const a = await getValue();
+  const b = await getValue();
+  return a + b;
+}
+console.log(await loadTwice());
+@@ forgot_await
+const sleep2 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const wrong = sleep2(100).then(() => "完了");
+console.log(wrong instanceof Promise, wrong);    // await を忘れると、値ではなく Promise が手に入る
+console.log(await wrong);
+@@ async_order
+console.log("1: 同期");
+setTimeout(() => console.log("4: setTimeout"), 0);
+Promise.resolve().then(() => console.log("3: Promise.then"));
+console.log("2: 同期");
+await new Promise((resolve) => setTimeout(resolve, 50));
+@@ parallel
+const sleep3 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let s0 = Date.now();
+await sleep3(300);
+await sleep3(300);
+const serial = Date.now() - s0;
+s0 = Date.now();
+await Promise.all([sleep3(300), sleep3(300)]);
+const par = Date.now() - s0;
+console.log("直列:", Math.round(serial / 100) * 100 + "ms", "並列:", Math.round(par / 100) * 100 + "ms");
+const results = await Promise.all([sleep3(10).then(() => "A"), sleep3(10).then(() => "B")]);
+console.log(results.join(", "));
+@@ await_loop
+const sleep4 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let tries = 0;
+const isReady = async () => { tries += 1; return tries >= 3; };   // 3回目で成功する想定
+for (let i = 0; i < 5; i++) {
+  const ok = await isReady();            // ループの中の await は、1回ずつ待つ
+  console.log(i + 1, "回目:", ok);
+  if (ok) break;
+  await sleep4(50);                      // 失敗したら、少し待ってやり直す
+}
+@@ import_dyn norun
+const lib = await import("https://www.unpkg.com/symbol-sdk@3.3.0/dist/bundle.web.js");
+const symbolPart = lib.symbol;
+@@ url_basic
+const BASE = "https://example.com:3001";
+const u = new URL("/node/info", BASE);            // 基準のURLに、パスをつなぐ
+console.log(u.href, u.pathname, u.origin);
+const u2 = new URL("/blocks?pageSize=5&order=desc", BASE);
+console.log(u2.searchParams.get("pageSize"), u2.searchParams.get("order"));
+console.log(BASE + "/chain/info");                 // + でつないでも、同じ形のURLになる
+@@ query
+const params = new URLSearchParams({ pageSize: "10", order: "desc" });
+console.log(params.toString());
+console.log("/items?" + params);
+@@ fetch_basic
+// 実際の通信の代わりに、通信の結果（Response）を自分で作って、読み方を確かめる
+const res = new Response(JSON.stringify({ name: "sample", version: 3 }), { status: 200 });
+const data = await res.json();
+console.log(res.ok, res.status);
+console.log(data.name, data.version);
+@@ fetch_404
+const res404 = new Response(JSON.stringify({ code: "NotFound", message: "no such item" }), { status: 404 });
+console.log(res404.ok, res404.status);
+const errBody = await res404.json();
+console.log(errBody.code);
+@@ fetch_helper
+// 本物の通信では fakeFetch の部分が fetch(URL) になる
+const fakeFetch2 = async (path) => (path === "/health"
+  ? new Response(JSON.stringify({ status: "up" }), { status: 200 })
+  : new Response("{}", { status: 404 }));
+const getJson = async (path) => {
+  const res = await fakeFetch2(path);
+  if (!res.ok) throw new Error(`HTTP ${res.status}: ${path}`);
+  return res.json();
+};
+try {
+  console.log((await getJson("/health")).status);
+  await getJson("/missing");
+} catch (e) {
+  console.log(e.message);
+}
+@@ fetch_all
+const answer = async (p) => (await Promise.resolve(new Response(JSON.stringify({ path: p })))).json();
+const answers = await Promise.all(["/a", "/b", "/c"].map(answer));
+console.log(answers.map((a) => a.path).join(", "));
+@@ fetch_post
+const body = { hashes: ["AAA", "BBB"] };
+const options = {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body),             // 送る中身は、JSONの文字列にする
+};
+console.log(options);
+const req = new Request("https://example.com/transactionStatus", options);   // 実際に送らず、送る内容だけ作る
+console.log(req.method, await req.text());
+@@ fetch_real
+const health = await fetch(window.origin + "/node/health");
+console.log(health.ok, health.status);
+console.log(await health.json());
+@@ fetch_then_style
+fetch(new URL("/node/health", window.origin), {
+  method: "GET",
+  headers: { "Content-Type": "application/json" },
+})
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json.status.apiNode);
+  });
+@@ try_catch
+const failAfter = (ms) => new Promise((_, reject) => setTimeout(() => reject(new Error("通信に失敗しました")), ms));
+try {
+  await failAfter(100);
+  console.log("ここは実行されない");
+} catch (e) {
+  console.log("失敗:", e.message);
+}
+console.log("catch のあとは、普通に続く");
+@@ err_object
+try {
+  null.id;
+} catch (e) {
+  console.log(e.name);
+  console.log(e.message);
+  console.log(String(e));
+}
+const own = new Error("自分で作ったエラー");
+console.log(own.name, own.message, own instanceof Error);
+@@ throw_check
+const parseCount = (s) => {
+  if (!/^[0-9]+$/.test(s)) throw new Error("数字ではありません: " + s);   // おかしな入力は、ここで止める
+  return Number(s);
+};
+for (const s of ["42", "4x2", ""]) {
+  try { console.log(parseCount(s)); } catch (e) { console.log(e.name, e.message); }
+}
+@@ retry_loop
+const sleep5 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let calls2 = 0;
+const unstable = async () => {
+  calls2 += 1;
+  if (calls2 < 3) throw new Error("まだ準備できていない");   // 2回目までは失敗する想定
+  return "成功";
+};
+let value = null;
+for (let i = 0; i < 5; i++) {
+  try {
+    value = await unstable();
+    break;                                   // 成功したらループを抜ける
+  } catch (e) {
+    console.log(i + 1, "回目は失敗:", e.message);
+    await sleep5(50);                        // 少し待って、やり直す
+  }
+}
+console.log("結果:", value);
+@@ errors
+const tryIt = (f) => {
+  try { f(); } catch (e) { console.log(e.name + ": " + e.message); }
+};
+tryIt(() => notDefinedYet);
+tryIt(() => { const o = undefined; return o.id; });
+tryIt(() => { const o = {}; o.go(); });
+tryIt(() => JSON.parse("<html>"));
+tryIt(() => { const k = 1; k = 2; });
+@@ errors_more
+const tryIt2 = (f) => {
+  try { f(); } catch (e) { console.log(e.name + ": " + e.message); }
+};
+tryIt2(() => { const o = null; return o.id; });
+tryIt2(() => new Promise());
+tryIt2(() => { const f = 5; f(); });
+tryIt2(() => [].reduce((a, b) => a + b));
+@@ foreach_await
+const sleep6 = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+[1, 2].forEach(async (n) => {
+  await sleep6(50);
+  console.log("forEach の中:", n);
+});
+console.log("forEach の直後（待たれていない）");
+await sleep6(100);
+for (const n of [3, 4]) {
+  await sleep6(50);
+  console.log("for…of の中:", n);
+}
+console.log("for…of の直後（待たれている）");
+@@ then_await_form norun
+// then で書く（本編の v3 コードに多い形）
+fetch(url)
+  .then((res) => res.json())
+  .then((json) => {
+    console.log(json);
+  });
+
+// await で書く（同じ意味）
+const res = await fetch(url);
+const json = await res.json();
+console.log(json);
+
+// 1行にまとめる書き方
+const json2 = await (await fetch(url)).json();
+
+// 連鎖全体に await を付ける書き方（第4章のアナウンスと同じ形）
+const json3 = await fetch(url).then((res) => res.json());
+@@ set_basic
+const signers = new Set(["Alice", "Bob", "Bob"]);   // 同じ値は、1つにまとまる
+signers.add("Carol");
+console.log(signers.size, signers.has("Bob"), signers.has("Dave"));
+console.log([...signers].join(", "));                 // 展開して、配列にする
+@@ forof_string
+for (const bit of (13).toString(2)) {                 // 文字列も、1文字ずつ取り出せる
+  console.log(bit);
+}
+@@ for_sum_trace
+let total2 = 0;
+for (let i = 1; i <= 5; i++) {
+  total2 += i;
+  console.log("i =", i, " total =", total2);   // 途中の total を表示して、育っていく様子を見る
+}
+@@ algo_max
+const scores = [62, 85, 47, 91, 73];
+let best = scores[0];                       // まず先頭を「いまの最大」にする
+for (const s of scores) {
+  if (s > best) {
+    console.log(s, "は", best, "より大きいので、入れ替える");
+    best = s;
+  }
+}
+console.log("最大:", best);
+@@ algo_search
+const ids2 = ["A001", "B002", "C003", "D004"];
+let foundAt = -1;                           // 見つからなかったときの印
+for (let i = 0; i < ids2.length; i++) {
+  console.log(i, "番目を調べる:", ids2[i]);
+  if (ids2[i] === "C003") { foundAt = i; break; }   // 見つけたら、残りは調べずに終わる
+}
+console.log("見つかった位置:", foundAt, " indexOf でも同じ:", ids2.indexOf("C003"));
+@@ for_nested
+for (let row = 1; row <= 3; row++) {
+  let line = "";
+  for (let col = 1; col <= 4; col++) line += String(row * col).padStart(3, " ");
+  console.log(line);                        // 外側が1回進むごとに、内側は最初から最後まで回る
+}
+@@ while_digits
+let n1 = 12345;
+let digits = 0;
+while (n1 > 0) {
+  n1 = Math.floor(n1 / 10);                 // 10で割って、一番下の桁を捨てる
+  digits += 1;
+  console.log("n1 =", n1, " digits =", digits);
+}
+console.log("桁数:", digits);
+@@ while_binary
+let n2 = 13;
+let bits = "";
+while (n2 > 0) {
+  bits = (n2 % 2) + bits;                   // 2で割った余りを、左に付け足す
+  console.log("余り", n2 % 2, "→", bits);
+  n2 = Math.floor(n2 / 2);
+}
+console.log(bits, (13).toString(2));        // toString(2) と同じ結果になる
+@@ algo_palindrome
+const wordP = "racecar";
+let left = 0, right = wordP.length - 1, same = true;
+while (left < right) {
+  console.log(left, right, wordP[left], wordP[right]);
+  if (wordP[left] !== wordP[right]) { same = false; break; }
+  left++; right--;                          // 左右から、真ん中へ寄せる
+}
+console.log(wordP, "は回文:", same);
+@@ recursion_trace
+const factT = (n, depth = 0) => {
+  const pad = "  ".repeat(depth);
+  console.log(pad + "factT(" + n + ") 開始");
+  const r = n <= 1 ? 1 : n * factT(n - 1, depth + 1);
+  console.log(pad + "factT(" + n + ") = " + r + " を返す");
+  return r;
+};
+factT(4);
+@@ recursion_more
+const sumTo = (n) => (n === 0 ? 0 : n + sumTo(n - 1));
+console.log(sumTo(4));                                  // 4 + 3 + 2 + 1
+const rev = (s) => (s === "" ? "" : rev(s.slice(1)) + s[0]);
+console.log(rev("abc"));                                // 残りを逆にして、先頭を最後に付ける
+const power = (b, e) => {
+  if (e === 0) return 1;
+  if (e % 2 === 0) return power(b * b, e / 2);          // 偶数なら、底を2乗して指数を半分に
+  return b * power(b, e - 1);                           // 奇数なら、1つ取り出して偶数にする
+};
+console.log(power(2, 10), power(3, 5));
+@@ map_filter_chain
+const prices = [120, 80, 450, 30, 300];
+const doubled = prices.map((p) => p * 2);               // 全部を変換する
+const expensive = prices.filter((p) => p >= 100);       // 条件に合うものだけ残す
+const firstBig = prices.find((p) => p >= 300);          // 最初の1つだけ探す
+console.log(doubled.join(", "));
+console.log(expensive.join(", "));
+console.log(firstBig);
+const total3 = prices.filter((p) => p >= 100).map((p) => p * 1.1).reduce((s, p) => s + p, 0);
+console.log(Math.round(total3));                        // 100以上だけ選び、1.1倍して、合計する
+@@ reduce_more
+const words = ["a", "b", "a", "c", "a", "b"];
+const countOf = words.reduce((acc, w) => {
+  acc[w] = (acc[w] ?? 0) + 1;                           // 出てきた回数を数える（初期値はオブジェクト）
+  return acc;
+}, {});
+console.log(countOf);
+const biggest = [3, 9, 4].reduce((m, n) => (n > m ? n : m), -Infinity);   // 最大を探す
+console.log(biggest);
+console.log(["Sym", "bol"].reduce((acc, s) => acc + s, ""));              // 文字をつなぐ（初期値は ""）
+@@ retry_backoff
+let waitMs = 100;
+for (let attempt = 1; attempt <= 4; attempt++) {
+  console.log(attempt + "回目が失敗 →", waitMs + "ミリ秒待つ");
+  waitMs *= 2;                                          // 待ち時間を倍にしていく
+}
+@@ async_order_fn
+console.log("1: 開始");
+const taskA = async () => {
+  console.log("2: taskA の中（await の前）");
+  await null;
+  console.log("4: taskA の続き（await の後）");
+};
+taskA();
+console.log("3: taskA を呼んだ直後");
+await new Promise((resolve) => setTimeout(resolve, 20));
+@@ parallel_order
+const sleep6 = (ms, label) => new Promise((resolve) => setTimeout(() => { console.log("終了:", label); resolve(label); }, ms));
+const got = await Promise.all([sleep6(60, "A"), sleep6(20, "B"), sleep6(40, "C")]);
+console.log("結果の並び:", got.join(", "));
+@@ slice_demo
+const fruits2 = ["りんご", "みかん", "ぶどう", "もも"];
+console.log(fruits2.slice(1, 3).join(","));          // 1番と2番（3番は含まない）
+console.log(fruits2.slice(-2).join(","));            // 後ろから2つ
+console.log(fruits2.at(-1), fruits2[fruits2.length - 1]);   // どちらも最後の要素
+console.log(fruits2.slice(2).join(","), fruits2.slice(0, 2).join(","));
+@@ cond_validate
+const check2 = (text) => {
+  if (text === "") return "空です";
+  if (!/^[0-9]+$/.test(text)) return "数字ではありません";
+  if (Number(text) > 100) return "100 を超えています";
+  return "OK";
+};
+for (const t of ["", "12a", "250", "42"]) console.log(JSON.stringify(t), "→", check2(t));
+@@ scope_demo
+const rate2 = 0.1;                         // 外側の変数
+const withTax = (price) => {
+  const tax = price * rate2;               // 関数の中で作った変数
+  return price + tax;
+};
+console.log(withTax(1000));
+try { console.log(tax); } catch (e) { console.log(e.name + ": " + e.message); }   // 外側からは見えない
+@@ algo_binary
+const sorted = [3, 8, 15, 22, 37, 41, 56];     // 小さい順に並んでいること
+const target = 37;
+let lo = 0, hi = sorted.length - 1;
+while (lo <= hi) {
+  const mid = Math.floor((lo + hi) / 2);       // 探す範囲の真ん中
+  console.log("範囲", lo, "〜", hi, " 中央の番号", mid, "の値", sorted[mid]);
+  if (sorted[mid] === target) { console.log("見つかった: 番号", mid); break; }
+  if (sorted[mid] < target) lo = mid + 1;      // 右半分に絞る
+  else hi = mid - 1;                           // 左半分に絞る
+}
+@@ algo_bubble
+const arr = [5, 2, 4, 1];
+for (let i = 0; i < arr.length - 1; i++) {
+  for (let j = 0; j < arr.length - 1 - i; j++) {
+    if (arr[j] > arr[j + 1]) {
+      [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];   // 隣どうしを入れ替える
+    }
+  }
+  console.log(i + 1, "周目:", arr.join(","));
+}
+@@ algo_count
+const words2 = ["a", "b", "a", "c", "a", "b"];
+const counts = {};
+for (const w of words2) {
+  counts[w] = (counts[w] ?? 0) + 1;            // 初めて出た文字は、0 から数え始める
+}
+console.log(counts);
+const top = Object.entries(counts).sort((x, y) => y[1] - x[1])[0];   // いちばん多いもの
+console.log("最多:", top[0], top[1], "回");
+@@ str_extra
+const addr = "TDWBA6L3CZ6VTZAZPAISL3RWM5VKMHM6J6IM3LY";
+console.log(addr.slice(0, 6) + "…" + addr.slice(-4));            // 長い文字列を短く表示
+console.log(addr.length, addr.startsWith("T"), addr.includes("ZZ"));
+console.log(addr.match(/.{1,8}/g).join(" "));                   // 8文字ずつ区切る
+console.log(addr.toLowerCase().slice(0, 5), "0x" + (255).toString(16).toUpperCase().padStart(4, "0"));
+@@ obj_extra
+const response = {
+  data: [
+    { meta: { height: "10" }, tx: { type: 16724 } },
+    { meta: { height: "11" }, tx: { type: 16725 } },
+  ],
+  pagination: { pageNumber: 1, pageSize: 2 },
+};
+console.log(response.data.length, response.data[0].meta.height, response.pagination.pageSize);
+console.log(response.data.map((d) => d.meta.height).join(","));
+console.log(response.data.find((d) => d.tx.type === 16725).meta.height);
+console.log(response.data[5], response.data[0].tx.type + 1);
+@@ func_extra
+const isEven = (n) => n % 2 === 0;
+const clamp = (n, min, max) => Math.min(Math.max(n, min), max);   // 範囲に収める
+const toYen = (n) => n + "円";
+const greet = (who, greeting = "こんにちは") => `${greeting}、${who}さん`;
+console.log(isEven(4), isEven(7), clamp(150, 0, 100), clamp(-5, 0, 100), toYen(300));
+console.log(greet("山田"), greet("鈴木", "おはよう"));
+console.log([1, 2, 3, 4].filter(isEven).map(toYen).join(" / "));    // 作った関数を、そのまま渡せる
+@@ flow_sim
+// 第4章の流れ（アナウンス → 確認）を、偽物の関数で真似る
+const fakeAnnounce = async (tx) => ({ message: "packet pushed", hash: "ABC123" });
+const fakeStatus = async (hash) => ({ group: "confirmed", hash });
+const flow = async () => {
+  const res = await fakeAnnounce("tx");
+  console.log(res.message);
+  const st = await fakeStatus(res.hash);
+  console.log(st.group, st.hash);
+  return st.group === "confirmed";
+};
+console.log("結果:", await flow());
